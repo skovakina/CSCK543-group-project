@@ -7,7 +7,6 @@
  * - Windows 10/11 (XAMPP, WAMP, Laragon, IIS)
  * - macOS Intel & Apple Silicon (XAMPP, MAMP, Homebrew, Built-in PHP Server)
  * - Linux Ubuntu/Debian/Fedora (LAMP stack, Apache/Nginx)
- * - Automatic PDO SQLite Zero-Config Fallback if MySQL service is offline
  */
 
 declare(strict_types=1);
@@ -26,7 +25,6 @@ define('DB_PASS', getenv('DB_PASS') !== false ? getenv('DB_PASS') : '');
  * Returns a singleton PDO connection that works across all Operating Systems:
  * 1. Connects to MySQL/MariaDB across Windows/macOS/Linux (ports 3306, 8889, or Unix sockets).
  * 2. Auto-bootstraps `chef_recipes_db` from `sql/chef_recipes_db.sql` on fresh MySQL setups.
- * 3. Falls back seamlessly to pre-seeded `sql/chef_recipes_fallback.sqlite` if MySQL is not running.
  */
 function getDbConnection(): PDO
 {
@@ -92,17 +90,6 @@ function getDbConnection(): PDO
         }
     }
 
-    // Universal Zero-Configuration Fallback: Pre-seeded SQLite 3NF Mirror Database
-    $sqliteFile = __DIR__ . '/../sql/chef_recipes_fallback.sqlite';
-    if (extension_loaded('pdo_sqlite') && is_readable($sqliteFile)) {
-        $pdo = new PDO('sqlite:' . $sqliteFile, null, null, [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]);
-        $pdo->exec('PRAGMA foreign_keys = ON;');
-        return $pdo;
-    }
-
     http_response_code(500);
-    die('Database connection unavailable. Please start MySQL in XAMPP or enable PDO SQLite.');
+    die('Database connection unavailable. Please start MySQL in XAMPP and check your database configuration.');
 }
