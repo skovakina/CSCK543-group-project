@@ -1,0 +1,274 @@
+/* Colours */
+:root {
+    --green: #2f5d3a;
+    --green-dark: #234529;
+    --text: #2a2420;
+    --muted: #5c524b;
+    --background: #fbf8f3;
+    --surface: #ffffff;
+    --border: #6f6259;
+    --error: #b00020;
+}
+
+/* Base */
+* {
+    box-sizing: border-box;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--background);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+h1 {
+    margin: 0 0 1rem;
+    font-size: 2rem;
+    line-height: 1.2;
+}
+
+a {
+    color: var(--green);
+}
+
+a:hover {
+    color: var(--green-dark);
+}
+
+:focus-visible {
+    outline: 3px solid #d98a00;
+    outline-offset: 2px;
+}
+
+.container {
+    width: 100%;
+    max-width: 70rem;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Skip link: only visible when focused */
+.skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.skip-link:focus {
+    left: 0;
+}
+
+/* Header and navigation */
+.site-header {
+    background: var(--green);
+    color: #ffffff;
+}
+
+.header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.site-name {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.site-name:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+.menu-toggle {
+    min-height: 44px;
+    padding: 0 1rem;
+    background: transparent;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.site-nav {
+    width: 100%;
+}
+
+/* Keep the menu closed on small screens when JavaScript is running */
+.js .site-nav {
+    display: none;
+}
+
+.js .site-nav.open {
+    display: block;
+}
+
+.site-nav ul {
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.5rem;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.site-nav a[aria-current="page"] {
+    font-weight: 700;
+}
+
+/* Forms */
+.form-panel {
+    max-width: 28rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid #ddd5ca;
+    border-radius: 8px;
+}
+
+.field {
+    margin-bottom: 1.25rem;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+}
+
+.hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+input {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font: inherit;
+}
+
+input[aria-invalid="true"] {
+    border: 2px solid var(--error);
+}
+
+.field-error {
+    margin: 0.25rem 0 0;
+    color: var(--error);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.field-error:empty {
+    display: none;
+}
+
+.form-link {
+    margin-bottom: 0;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.5rem 1.5rem;
+    background: var(--green);
+    border: 0;
+    border-radius: 4px;
+    color: #ffffff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--green-dark);
+}
+
+/* Messages */
+.notice {
+    max-width: 28rem;
+    margin: 0 auto 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--green);
+    border-radius: 4px;
+}
+
+.notice-error {
+    border-color: var(--error);
+}
+
+/* Footer */
+.site-footer {
+    background: var(--green-dark);
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+.site-footer p {
+    margin: 0;
+    padding: 1rem 0;
+}
+
+/* Larger screens */
+@media (min-width: 48rem) {
+    .menu-toggle {
+        display: none;
+    }
+
+    .site-nav,
+    .js .site-nav {
+        display: block;
+        width: auto;
+    }
+
+    .site-nav ul {
+        display: flex;
+        gap: 0.5rem;
+        margin: 0;
+    }
+}
