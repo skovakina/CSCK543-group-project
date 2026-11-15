@@ -33,6 +33,15 @@ if ($action !== 'save' && $action !== 'remove') {
     die('Choose whether to save or remove the recipe.');
 }
 
+$return_to = post_value('return_to');
+if ($return_to === '') {
+    $return_to = 'index.php';
+}
+if ($return_to !== 'index.php' && $return_to !== 'account.php') {
+    http_response_code(400);
+    die('Invalid return page.');
+}
+
 try {
     $sql = $action === 'remove'
         ? 'DELETE FROM user_favourites WHERE user_id = :user_id AND recipe_id = :recipe_id'
@@ -45,4 +54,4 @@ try {
     set_flash_notice('We could not update your favourites. Please try again.');
 }
 
-redirect_to('index.php');
+redirect_to($return_to);
