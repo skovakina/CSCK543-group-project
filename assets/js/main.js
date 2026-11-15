@@ -5,26 +5,41 @@ document.documentElement.classList.add('js');
 const menuButton = document.querySelector('.menu-toggle');
 const siteNav = document.querySelector('.site-nav');
 
-menuButton.hidden = false;
+if (menuButton && siteNav) {
+    menuButton.hidden = false;
 
-menuButton.addEventListener('click', function () {
-    const isOpen = siteNav.classList.toggle('open');
-    menuButton.setAttribute('aria-expanded', isOpen);
-});
+    menuButton.addEventListener('click', function () {
+        const isOpen = siteNav.classList.toggle('open');
+        menuButton.setAttribute('aria-expanded', isOpen);
+    });
+}
+
+// Counts Unicode code points to match PHP mb_strlen(..., 'UTF-8').
+function charLength(value) {
+    return Array.from(value).length;
+}
 
 // Returns the error message for a field, or an empty string.
 function getError(input, form) {
     const value = input.value.trim();
 
-    if (input.name === 'name' && value === '') {
-        return 'Enter your name.';
+    if (input.name === 'name') {
+        if (value === '') {
+            return 'Enter your name.';
+        }
+        if (charLength(value) > 100) {
+            return 'Name must be 100 characters or fewer.';
+        }
     }
 
     if (input.name === 'email') {
         if (value === '') {
             return 'Enter your email address.';
         }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        if (charLength(value) > 150) {
+            return 'Email address must be 150 characters or fewer.';
+        }
+        if (!/^[^\s@\u0080-\uFFFF]+@([^\s@.\u0080-\uFFFF]+\.)+[^\s@.\u0080-\uFFFF]+$/.test(value)) {
             return 'Enter a valid email address.';
         }
     }
@@ -33,7 +48,7 @@ function getError(input, form) {
         if (input.value === '') {
             return form.id === 'login-form' ? 'Enter your password.' : 'Enter a password.';
         }
-        if (form.id === 'register-form' && input.value.length < 8) {
+        if (form.id === 'register-form' && charLength(input.value) < 8) {
             return 'Password must be at least 8 characters.';
         }
     }
@@ -88,6 +103,9 @@ document.querySelectorAll('form[data-validate]').forEach(function (form) {
         input.addEventListener('input', function () {
             if (input.hasAttribute('aria-invalid')) {
                 checkField(input, form);
+            }
+            if (input.name === 'password' && form.elements.confirm_password && form.elements.confirm_password.hasAttribute('aria-invalid')) {
+                checkField(form.elements.confirm_password, form);
             }
         });
     });
