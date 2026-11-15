@@ -1,17 +1,25 @@
 <?php
 // Top of every page. Set $page_title before including this file.
 require_once __DIR__ . '/functions.php';
+ensure_session_started();
 
 $site_name = "Chef's Recipes";
 $current_page = basename($_SERVER['SCRIPT_NAME']);
+$is_logged_in = current_user_id() !== null;
+$flash_notice = consume_flash_notice();
 
 $nav_links = [
     'index.php' => 'Home',
     'search.php' => 'Search',
     'account.php' => 'My account',
-    'login.php' => 'Log in',
-    'register.php' => 'Register',
 ];
+
+if ($is_logged_in) {
+    $nav_links['logout.php'] = 'Log out';
+} else {
+    $nav_links['login.php'] = 'Log in';
+    $nav_links['register.php'] = 'Register';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en-GB">
@@ -45,3 +53,6 @@ $nav_links = [
     </header>
 
     <main class="container" id="main">
+        <?php if ($flash_notice !== ''): ?>
+            <p class="notice" role="status"><?= e($flash_notice) ?></p>
+        <?php endif; ?>

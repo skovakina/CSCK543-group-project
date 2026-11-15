@@ -7,6 +7,91 @@ function e($text)
     return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
 }
 
+// Counts Unicode characters rather than UTF-8 bytes.
+function char_length($text)
+{
+    if (function_exists('mb_strlen')) {
+        return mb_strlen($text, 'UTF-8');
+    }
+
+    $count = preg_match_all('/./us', $text, $matches);
+    return $count === false ? strlen($text) : $count;
+}
+
+// Trims and lowercases an email address safely.
+function normalize_email($email)
+{
+    $trimmed = trim($email);
+    return function_exists('mb_strtolower') ? mb_strtolower($trimmed, 'UTF-8') : strtolower($trimmed);
+}
+
+// Ensures a PHP session is active before reading or writing $_SESSION.
+function ensure_session_started()
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
+// Returns the signed-in user's ID, or null if not logged in.
+function current_user_id()
+{
+    ensure_session_started();
+    return isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+}
+
+// Returns the signed-in user's display name, or an empty string.
+function current_user_name()
+{
+    ensure_session_started();
+    return isset($_SESSION['user_name']) && is_string($_SESSION['user_name']) ? $_SESSION['user_name'] : '';
+}
+
+// Stores a one-time status message in the session for the next request.
+function set_flash_notice($message)
+{
+    ensure_session_started();
+    $_SESSION['flash_notice'] = $message;
+}
+
+// Reads and clears any pending one-time status message.
+function consume_flash_notice()
+{
+    ensure_session_started();
+    if (!isset($_SESSION['flash_notice']) || !is_string($_SESSION['flash_notice'])) {
+        return '';
+    }
+    $message = $_SESSION['flash_notice'];
+    unset($_SESSION['flash_notice']);
+    return $message;
+}
+
+// Establishes an authenticated session and rotates the session ID.
+function login_user_session(array $user)
+{
+    ensure_session_started();
+    session_regenerate_id(true);
+    $_SESSION['user_id'] = (int)$user['user_id'];
+    $_SESSION['user_name'] = (string)$user['full_name'];
+    $_SESSION['user_email'] = (string)$user['email'];
+}
+
+// Detects MySQL/PDO unique constraint violations (SQLSTATE 23000 / 1062).
+function is_duplicate_key_exception(PDOException $e)
+{
+    if ($e->getCode() === '23000') {
+        return true;
+    }
+    return isset($e->errorInfo[1]) && (int)$e->errorInfo[1] === 1062;
+}
+
+// Redirects to a relative page and stops script execution.
+function redirect_to($location)
+{
+    header('Location: ' . $location);
+    exit;
+}
+
 // Gets a submitted form value as a string.
 function post_value($name)
 {
@@ -42,6 +127,9 @@ function email_error($email)
     if ($email === '') {
         return 'Enter your email address.';
     }
+    if (char_length($email) > 150) {
+        return 'Email address must be 150 characters or fewer.';
+    }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return 'Enter a valid email address.';
     }
@@ -55,17 +143,18 @@ function validate_registration($name, $email, $password, $confirm_password)
 
     if ($name === '') {
         $errors['name'] = 'Enter your name.';
-    } elseif (strlen($name) > 100) {
+    } elseif (char_length($name) > 100) {
         $errors['name'] = 'Name must be 100 characters or fewer.';
     }
 
-    if (email_error($email) !== '') {
-        $errors['email'] = email_error($email);
+    $email_msg = email_error($email);
+    if ($email_msg !== '') {
+        $errors['email'] = $email_msg;
     }
 
     if ($password === '') {
         $errors['password'] = 'Enter a password.';
-    } elseif (strlen($password) < 8) {
+    } elseif (char_length($password) < 8) {
         $errors['password'] = 'Password must be at least 8 characters.';
     }
 
@@ -83,8 +172,9 @@ function validate_login($email, $password)
 {
     $errors = [];
 
-    if (email_error($email) !== '') {
-        $errors['email'] = email_error($email);
+    $email_msg = email_error($email);
+    if ($email_msg !== '') {
+        $errors['email'] = $email_msg;
     }
 
     if ($password === '') {
