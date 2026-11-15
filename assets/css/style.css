@@ -185,6 +185,18 @@ a:hover {
     color: var(--muted);
 }
 
+.recipe-detail {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.recipe-detail img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
 /* Forms */
 .form-panel {
     max-width: 28rem;
