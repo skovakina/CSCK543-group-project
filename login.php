@@ -1,18 +1,39 @@
 <?php
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/functions.php';
 
 $page_title = 'Log in';
 $email = '';
 $errors = [];
-$is_valid = false;
+$form_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim(post_value('email'));
+    $email = normalize_email(post_value('email'));
+    $password = post_value('password');
 
-    $errors = validate_login($email, post_value('password'));
+    $errors = validate_login($email, $password);
 
-    // TODO: check the email and password once the users table is merged.
-    $is_valid = empty($errors);
+    if (empty($errors)) {
+        try {
+            $pdo = getDbConnection();
+            $stmt = $pdo->prepare(
+                'SELECT user_id, full_name, email, password_hash FROM users WHERE email = :email LIMIT 1'
+            );
+            $stmt->execute([':email' => $email]);
+            $user = $stmt->fetch();
+
+            if ($user && password_verify($password, (string)$user['password_hash'])) {
+                login_user_session($user);
+                set_flash_notice('Welcome back, ' . (string)$user['full_name'] . '!');
+                redirect_to('index.php');
+            }
+
+            $form_error = 'Incorrect email address or password.';
+        } catch (PDOException $e) {
+            error_log('Login query failed (SQLSTATE ' . $e->getCode() . ').');
+            $form_error = 'We could not log you in right now. Please try again.';
+        }
+    }
 }
 
 require __DIR__ . '/includes/header.php';
@@ -20,8 +41,13 @@ require __DIR__ . '/includes/header.php';
 
 <?php if (!empty($errors)): ?>
     <p class="notice notice-error" role="alert">Please correct the errors below.</p>
-<?php elseif ($is_valid): ?>
-    <p class="notice" role="status">Your details are valid, but you cannot log in until the database is connected.</p>
+<?php elseif ($form_error !== ''): ?>
+    <p class="notice notice-error" role="alert"><?= e($form_error) ?></p>
+<?php elseif ($is_logged_in): ?>
+    <p class="notice" role="status">
+        You are currently logged in as <?= e(current_user_name()) ?>.
+        <a href="logout.php">Log out</a>
+    </p>
 <?php endif; ?>
 
 <div class="form-panel">
