@@ -161,6 +161,7 @@ a:hover {
 }
 
 .recipe-card {
+    position: relative;
     padding: 1rem;
     background: var(--surface);
     border: 1px solid #ddd5ca;
@@ -183,6 +184,34 @@ a:hover {
 .recipe-card p {
     margin: 0;
     color: var(--muted);
+}
+
+.favourite-button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--surface);
+    color: var(--green);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.favourite-button svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.favourite-button[aria-pressed="true"] svg {
+    fill: currentColor;
 }
 
 .recipe-detail {
