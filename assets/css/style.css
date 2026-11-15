@@ -154,6 +154,37 @@ a:hover {
     font-weight: 700;
 }
 
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1.5rem;
+}
+
+.recipe-card {
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid #ddd5ca;
+    border-radius: 8px;
+}
+
+.recipe-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.recipe-card h2 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.recipe-card p {
+    margin: 0;
+    color: var(--muted);
+}
+
 /* Forms */
 .form-panel {
     max-width: 28rem;

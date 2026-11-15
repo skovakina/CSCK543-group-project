@@ -1,16 +1,16 @@
 # CSCK543 Group Project — Recipe Web Application
 
-## Completed Foundation Tasks (Issues #1, #2, and #3)
+## Application Foundation
 
 This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Application:
 
-1. **[Issue #1](https://github.com/skovakina/CSCK543-group-project/issues/1) — Set Up PHP Application and MySQL Connection**
+1. **PHP Application and MySQL Connection**
    - `config/database.php`: Provides `getDbConnection()` returning a configured `PDO` instance (`ERRMODE_EXCEPTION`, `FETCH_ASSOC`, prepared statements enabled).
-   - Automatically connects to XAMPP MySQL (`127.0.0.1:3306`, database `chef_recipes_db`, user `root`) and auto-imports `sql/chef_recipes_db.sql` on first run if the database has not been created yet.
+   - Connects to XAMPP MySQL (`127.0.0.1:3306`, database `chef_recipes_db`, user `root`). Database setup requires an explicit import; normal requests never import or reset data.
    - `.vscode/settings.json`: VS Code workspace configuration for PHP 7/8 development.
-   - `index.php`: Starter entry point verifying the PHP + MySQL connection and displaying the loaded schema tables and sample BBC Food recipes.
+   - `index.php`: Recipe grid from MySQL, with shared navigation.
 
-2. **[Issue #2](https://github.com/skovakina/CSCK543-group-project/issues/2) — Design and Create the MySQL Database**
+2. **MySQL Database**
    - `sql/chef_recipes_db.sql`: Relational MySQL Workbench schema (`chef_recipes_db`) in Third Normal Form (3NF) with 8 InnoDB tables:
      - `users`: Stores user name, email, BCRYPT password hash, dietary preferences, cooking skill level, allergies, and bio.
      - `recipes`: Stores recipe title, slug, description, chef notes, BBC Food URL, prep/cook/total time, servings, difficulty, cost tier, and nutritional macros.
@@ -20,7 +20,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      - `user_favourites`: Stores users' saved favourite recipes and personal notes.
      - `recipe_ratings`: Stores user ratings broken down into taste, aesthetics, difficulty, and overall rating.
 
-3. **[Issue #3](https://github.com/skovakina/CSCK543-group-project/issues/3) — Populate the Database With Sample Recipes**
+3. **Sample Recipes**
    - `sql/chef_recipes_db.sql` seeds all **8 specified BBC Food recipes** from the assignment brief (plus 4 additional BBC Food recipes = 12 total):
      1. [Spaghetti Bolognese](https://www.bbc.co.uk/food/recipes/spaghettibolognese_67868)
      2. [Vegan Pancakes](https://www.bbc.co.uk/food/recipes/vegan_american_pancakes_76094)
@@ -34,20 +34,41 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
 
 ---
 
+## macOS Setup
+
+Install PHP: `brew install php`. If MySQL is not already installed and running: `brew install mysql && brew services start mysql`.
+
+From the project folder, import once (this resets application tables):
+
+```zsh
+mysql -u root -p < sql/chef_recipes_db.sql
+```
+
+Start the website in Terminal (zsh), entering your MySQL root password when prompted:
+
+```zsh
+read -r -s "DB_PASS?MySQL root password: "
+echo
+export DB_PASS
+php -S localhost:8000
+```
+
 ## How to Run Locally on XAMPP & MySQL Workbench
 
 1. **Place the project folder inside XAMPP `htdocs`:**
    - Windows: `C:\xampp\htdocs\CSCK543-group-project`
    - macOS: `/Applications/XAMPP/xamppfiles/htdocs/CSCK543-group-project`
 2. **Start Apache and MySQL** in the XAMPP Control Panel.
-3. **Import Database (Optional — Auto-Imported on First Load):**
-   - Open `sql/chef_recipes_db.sql` in **MySQL Workbench** or **phpMyAdmin** and execute it, OR simply load `index.php` in your browser and `config/database.php` will automatically create and seed `chef_recipes_db`.
+3. **Import Database (Required for a Fresh Installation):**
+   - Open `sql/chef_recipes_db.sql` in **MySQL Workbench** or **phpMyAdmin** and execute it to create and seed `chef_recipes_db`.
+   - **Warning:** this script drops and recreates application tables. Do not re-import it into an existing database unless you intend to reset its data and have a backup.
+   - If the database is already set up, skip the import. Connection or schema errors must be investigated, not fixed by re-importing the seed script.
 4. **Open in Google Chrome:**
    - Visit `http://localhost/CSCK543-group-project/`
 
 ---
 
-## Using the Database Connection in Other Tasks (Issues #4–#8)
+## Using the Database Connection
 
 In any PHP page (`search.php`, `recipe.php`, `login.php`, `register.php`, `account.php`), include `config/database.php` and call `getDbConnection()`:
 
