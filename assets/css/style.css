@@ -156,11 +156,12 @@ a:hover {
 
 .recipe-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
     gap: 1.5rem;
 }
 
 .recipe-card {
+    position: relative;
     padding: 1rem;
     background: var(--surface);
     border: 1px solid #ddd5ca;
@@ -183,6 +184,54 @@ a:hover {
 .recipe-card p {
     margin: 0;
     color: var(--muted);
+}
+
+.favourite-button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--surface);
+    color: var(--green);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.favourite-button svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.favourite-button[aria-pressed="true"] svg {
+    fill: currentColor;
+}
+
+.account-header {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid #ddd5ca;
+    border-radius: 8px;
+}
+
+.recipe-detail {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.recipe-detail img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
 }
 
 /* Forms */

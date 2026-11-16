@@ -2,10 +2,28 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/config/database.php';
-$recipes = getDbConnection()->query(
-    'SELECT title, image_path, total_time_mins FROM recipes ORDER BY title'
+require_once __DIR__ . '/includes/functions.php';
+
+$pdo = getDbConnection();
+$recipes = $pdo->query(
+    'SELECT recipe_id, title, image_path, total_time_mins FROM recipes ORDER BY title'
 )->fetchAll();
 
+$user_id = current_user_id();
+$saved_recipes = [];
+if ($user_id !== null) {
+    try {
+        $stmt = $pdo->prepare('SELECT recipe_id FROM user_favourites WHERE user_id = :user_id');
+        $stmt->execute([':user_id' => $user_id]);
+        $saved_recipes = array_fill_keys($stmt->fetchAll(PDO::FETCH_COLUMN), true);
+    } catch (PDOException $e) {
+        error_log('Favourites query failed (SQLSTATE ' . $e->getCode() . ').');
+        http_response_code(500);
+        die('We could not load your saved recipes. Please try again.');
+    }
+}
+
+$return_to = 'index.php';
 $page_title = 'Home';
 require __DIR__ . '/includes/header.php';
 ?>
@@ -16,15 +34,7 @@ require __DIR__ . '/includes/header.php';
 <?php if (empty($recipes)): ?>
     <p>No recipes available yet.</p>
 <?php else: ?>
-    <div class="recipe-grid">
-        <?php foreach ($recipes as $recipe): ?>
-            <article class="recipe-card">
-                <img src="<?= e($recipe['image_path']) ?>" alt="" loading="lazy">
-                <h2><?= e($recipe['title']) ?></h2>
-                <p><?= (int)$recipe['total_time_mins'] ?> minutes</p>
-            </article>
-        <?php endforeach; ?>
-    </div>
+    <?php require __DIR__ . '/includes/recipe-grid.php'; ?>
 <?php endif; ?>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>
