@@ -271,8 +271,73 @@ input {
     font: inherit;
 }
 
+select {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0.25rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font: inherit;
+}
+
 input[aria-invalid="true"] {
     border: 2px solid var(--error);
+}
+
+/* Search */
+.search-form {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid #ddd5ca;
+    border-radius: 8px;
+}
+
+.search-fields {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: 0 1.5rem;
+}
+
+.diet-options {
+    margin: 0 0 1.25rem;
+    padding: 0;
+    border: 0;
+}
+
+.diet-options legend {
+    padding: 0;
+    font-weight: 600;
+}
+
+.checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    margin-right: 1.5rem;
+    font-weight: 400;
+}
+
+.checkbox input {
+    width: 1.25rem;
+    min-height: 0;
+    height: 1.25rem;
+    margin: 0;
+}
+
+.search-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.results-heading {
+    font-size: 1.25rem;
 }
 
 .field-error {
