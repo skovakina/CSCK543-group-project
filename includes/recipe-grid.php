@@ -23,7 +23,15 @@ if (!isset($_SESSION['favourite_token'])) {
                 </button>
             </form>
             <h2><a href="recipe.php?id=<?= (int)$recipe['recipe_id'] ?>"><?= e($recipe['title']) ?></a></h2>
-            <p><?= (int)$recipe['total_time_mins'] ?> minutes</p>
+            <p>
+                <?= (int)$recipe['total_time_mins'] ?> minutes
+                <?php if (isset($recipe['difficulty'])): ?>
+                    &middot; <?= e($recipe['difficulty']) ?> &middot; <?= (int)$recipe['calories_per_serving'] ?> kcal
+                <?php endif; ?>
+            </p>
+            <?php if (!empty($recipe['avg_rating'])): ?>
+                <p>Rated <?= number_format((float)$recipe['avg_rating'], 1) ?> out of 5</p>
+            <?php endif; ?>
         </article>
     <?php endforeach; ?>
 </div>

@@ -62,14 +62,33 @@ function getError(input, form) {
         }
     }
 
+    // Search form
+    if ((input.name === 'q' || input.name === 'exclude') && charLength(value) > 100) {
+        return 'Keep this to 100 characters or fewer.';
+    }
+
+    if (input.type === 'number') {
+        const number = Number(value);
+        const outOfRange = !Number.isInteger(number) || number < Number(input.min) || number > Number(input.max);
+        if (input.validity.badInput || (value !== '' && outOfRange)) {
+            return 'Enter a whole number from ' + input.min + ' to ' + input.max + '.';
+        }
+    }
+
     return '';
 }
 
 // Shows or clears a field's error. Returns true if the field is valid.
 function checkField(input, form) {
-    const error = getError(input, form);
+    const errorElement = document.getElementById(input.id + '-error');
 
-    document.getElementById(input.id + '-error').textContent = error;
+    // Fields without an error message (such as checkboxes) are not checked.
+    if (!errorElement) {
+        return true;
+    }
+
+    const error = getError(input, form);
+    errorElement.textContent = error;
 
     if (error) {
         input.setAttribute('aria-invalid', 'true');

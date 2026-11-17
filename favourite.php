@@ -37,7 +37,9 @@ $return_to = post_value('return_to');
 if ($return_to === '') {
     $return_to = 'index.php';
 }
-if ($return_to !== 'index.php' && $return_to !== 'account.php') {
+// Search results can come back with their filters, e.g. search.php?q=pasta
+$is_search_page = $return_to === 'search.php' || strpos($return_to, 'search.php?') === 0;
+if ($return_to !== 'index.php' && $return_to !== 'account.php' && !$is_search_page) {
     http_response_code(400);
     die('Invalid return page.');
 }

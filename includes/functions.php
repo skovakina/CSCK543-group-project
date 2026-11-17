@@ -98,8 +98,44 @@ function post_value($name)
     return isset($_POST[$name]) && is_string($_POST[$name]) ? $_POST[$name] : '';
 }
 
-// Prints a labelled input with space for a hint and an error.
-function form_field($name, $label, $type, $autocomplete, $value = '', $errors = [], $hint = '')
+// Gets a value from the address bar (GET) as a string.
+function query_value($name)
+{
+    return isset($_GET[$name]) && is_string($_GET[$name]) ? $_GET[$name] : '';
+}
+
+// Checks an optional whole number. Returns an error message, or an empty string.
+function whole_number_error($value, $min, $max)
+{
+    if ($value === '') {
+        return '';
+    }
+    $number = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => $min, 'max_range' => $max]]);
+    return $number === false ? "Enter a whole number from $min to $max." : '';
+}
+
+// Makes a LIKE pattern that treats % and _ in the text as normal characters.
+function like_pattern($text)
+{
+    return '%' . addcslashes($text, '%_\\') . '%';
+}
+
+// Prints a labelled drop-down list. $options maps values to labels.
+function select_field($name, $label, $options, $selected)
+{
+    echo '<div class="field">';
+    echo '<label for="' . e($name) . '">' . e($label) . '</label>';
+    echo '<select id="' . e($name) . '" name="' . e($name) . '">';
+    foreach ($options as $value => $text) {
+        $value = (string)$value;
+        echo '<option value="' . e($value) . '"' . ($value === $selected ? ' selected' : '') . '>' . e($text) . '</option>';
+    }
+    echo '</select>';
+    echo '</div>';
+}
+
+// Prints a labelled input with space for a hint and an error. $attributes adds extras such as min and max.
+function form_field($name, $label, $type, $autocomplete, $value = '', $errors = [], $hint = '', $required = true, $attributes = '')
 {
     $error = isset($errors[$name]) ? $errors[$name] : '';
     $described_by = $name . '-error';
@@ -113,7 +149,9 @@ function form_field($name, $label, $type, $autocomplete, $value = '', $errors = 
     }
 
     echo '<input type="' . e($type) . '" id="' . e($name) . '" name="' . e($name) . '"';
-    echo ' value="' . e($value) . '" autocomplete="' . e($autocomplete) . '" required';
+    echo ' value="' . e($value) . '" autocomplete="' . e($autocomplete) . '"';
+    echo $required ? ' required' : '';
+    echo $attributes !== '' ? ' ' . $attributes : '';
     echo ' aria-describedby="' . e($described_by) . '"';
     echo $error !== '' ? ' aria-invalid="true">' : '>';
 
