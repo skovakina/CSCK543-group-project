@@ -7,8 +7,12 @@ $name = '';
 $email = '';
 $errors = [];
 $form_error = '';
+$csrf_error = '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !has_valid_csrf_token()) {
+    http_response_code(403);
+    $csrf_error = 'This form could not be verified. Reload the page and try again.';
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim(post_value('name'));
     $email = normalize_email(post_value('email'));
     $password = post_value('password');
@@ -54,12 +58,14 @@ require __DIR__ . '/includes/header.php';
 
 <?php if (!empty($errors)): ?>
     <p class="notice notice-error" role="alert">Please correct the errors below.</p>
+<?php elseif ($csrf_error !== ''): ?>
+    <p class="notice notice-error" role="alert"><?= e($csrf_error) ?></p>
 <?php elseif ($form_error !== ''): ?>
     <p class="notice notice-error" role="alert"><?= e($form_error) ?></p>
 <?php elseif ($is_logged_in): ?>
     <p class="notice" role="status">
         You are currently logged in as <?= e(current_user_name()) ?>.
-        <a href="logout.php">Log out</a>
+        Use the Log out button in the main menu when you are finished.
     </p>
 <?php endif; ?>
 
@@ -67,6 +73,7 @@ require __DIR__ . '/includes/header.php';
     <h1>Register</h1>
 
     <form id="register-form" method="post" action="register.php" data-validate>
+        <?php csrf_field(); ?>
         <?php
         form_field('name', 'Name', 'text', 'name', $name, $errors);
         form_field('email', 'Email address', 'email', 'email', $email, $errors);

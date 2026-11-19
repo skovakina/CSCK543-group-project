@@ -18,7 +18,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      - `recipe_ingredients`: Stores ordered ingredient lists, numeric & formatted quantities, measurement units, preparation notes, and allergen flags.
      - `recipe_steps`: Stores ordered cooking steps (`step_number`), stage title, instructions, and explicit duration per step (`duration_minutes`).
      - `user_favourites`: Stores users' saved favourite recipes and personal notes.
-     - `recipe_ratings`: Stores user ratings broken down into taste, aesthetics, difficulty, and overall rating.
+     - `recipe_ratings`: Stores one rating and written review per user and recipe, including taste, appearance, difficulty, and overall scores.
 
 3. **Sample Recipes**
    - `sql/chef_recipes_db.sql` seeds all **8 specified BBC Food recipes** from the assignment brief (plus 4 additional BBC Food recipes = 12 total):
@@ -31,6 +31,17 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      7. [Mango Pie](https://www.bbc.co.uk/food/recipes/mango_pie_18053)
      8. [Mushroom Doner](https://www.bbc.co.uk/food/recipes/mushroom_doner_22676)
    - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings.
+
+4. **Ratings, Reviews, and Sources**
+   - Signed-in users can add or update their ratings and optionally include a written review on a recipe page.
+   - Recipe pages and cards show the average overall score and number of ratings.
+   - Recipe pages link to the original BBC Food recipe when a BBC source URL is stored.
+
+5. **Security and Accessibility**
+   - Passwords use PHP's `password_hash()` and `password_verify()` functions.
+   - State-changing forms use session CSRF tokens, and sign-out is a POST form.
+   - Database queries use PDO prepared statements; user-provided review text is escaped before display.
+   - Pages include a skip link, visible keyboard focus, labelled controls, and responsive layouts.
 
 ---
 
@@ -65,6 +76,10 @@ php -S localhost:8000
    - If the database is already set up, skip the import. Connection or schema errors must be investigated, not fixed by re-importing the seed script.
 4. **Open in Google Chrome:**
    - Visit `http://localhost/CSCK543-group-project/`
+5. **Try ratings and reviews:**
+   - Register or log in, open a recipe, choose a score for each rating field, and submit a short review.
+   - Submit another review for the same recipe while signed in to update your existing entry.
+   - Open the recipe while signed out to view its ratings and reviews.
 
 ---
 
