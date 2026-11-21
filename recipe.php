@@ -80,7 +80,7 @@ if ($id !== false) {
                             'options' => ['min_range' => 1, 'max_range' => 5],
                         ]);
                         if ($score === false) {
-                            $rating_errors[$field] = 'Choose a ' . $label . ' from 1 to 5.';
+                            $rating_errors[$field] = 'Choose an ' . $label . ' from 1 to 5.';
                         }
                     }
 
