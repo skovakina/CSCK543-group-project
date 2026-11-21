@@ -78,3 +78,25 @@ require_once __DIR__ . '/config/database.php';
 
 $pdo = getDbConnection();
 ```
+
+## Ratings, Reviews, and Recipe Sources
+
+- The accounts, favourites, ratings, and reviews included in the SQL seed are sample data for local testing.
+- Signed-in users can rate a recipe for overall score, taste, appearance, and difficulty.
+- Each user can save one rating per recipe. Submitting again updates that rating.
+- Users can include an optional review title and comment. Ratings and written reviews appear on the recipe page, with the average score and rating count also shown on recipe cards.
+- Recipe pages include a link to the BBC Food source stored for that recipe.
+
+## Security, Validation, and Accessibility
+
+- Passwords are stored with PHP's `password_hash()` and checked with `password_verify()`.
+- Forms that change data use session CSRF tokens. Logging out uses a POST form.
+- Queries that use submitted values use PDO prepared statements, and user-entered text is escaped before it is shown in a page.
+- Registration, login, search, and rating forms validate input in the browser and again in PHP.
+- Pages include a skip link, visible keyboard focus, labelled form controls, and a responsive layout with a mobile navigation menu.
+
+## Screenshots and Local Testing
+
+- The `screenshots/` folder contains 10 screenshots of the main views, including two mobile screenshots.
+- After setup, try searching and sorting recipes, registering and logging in, saving a favourite, and submitting or updating a rating and review.
+- Check the site at desktop and mobile widths. Use the keyboard to move through the navigation and forms and confirm the focus indicator is visible.

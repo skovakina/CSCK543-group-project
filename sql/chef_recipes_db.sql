@@ -177,13 +177,13 @@ CREATE TABLE `user_favourites` (
 -- SEED DATA
 -- ============================================================================
 
--- 1. Seed Users (Password for all accounts is: Password123!)
+-- 1. Seed demo accounts for local testing (password: Password123!).
 INSERT INTO `users` (`user_id`, `full_name`, `email`, `password_hash`, `dietary_preference`, `cooking_skill`, `allergies`, `favourite_cuisine`, `bio`, `created_at`) VALUES
-(1, 'Lolwa Al-Kuwari', 'sglalkuw@liverpool.ac.uk', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Halal & Healthy', 'Advanced', 'None', 'Middle Eastern & Mediterranean', 'Passionate about nutritious family meals, aromatic spices, and accessible web design.', '2026-10-15 10:00:00'),
-(2, 'Svetlana Kovakina', 'svetlana@liverpool.ac.uk', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Vegetarian', 'Intermediate', 'Peanuts', 'French Patisserie & Salads', 'Loves seasonal fruit desserts, French baking techniques, and vibrant plant-forward dishes.', '2026-10-16 11:30:00'),
-(3, 'Namakau Mbumwae', 'namakau@liverpool.ac.uk', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Vegan', 'Advanced', 'Dairy, Eggs', 'Plant-Based Street Food', 'Exploring creative vegan alternatives, high-fibre grains, and hearty weekend brunches.', '2026-10-17 14:15:00'),
-(4, 'Kyle Andrew Sutherland', 'kyle@liverpool.ac.uk', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'No Restriction', 'Intermediate', 'Shellfish', 'Italian & British Classics', 'Enjoys slow-simmered ragùs, artisan pizzas, and bold aromatic curries.', '2026-10-18 09:45:00'),
-(5, 'Chef Marco Bellini', 'chef@culinarystudio.co.uk', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'No Restriction', 'Professional', 'None', 'Modern British & Global Fusion', 'Celebrity Chef & founder of Chef Marco Culinary Studio. Dedicated to making restaurant-grade cooking approachable for every home kitchen.', '2026-10-10 08:00:00');
+(1, 'Demo User 1', 'demo1@example.test', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Halal & Healthy', 'Advanced', 'None', 'Middle Eastern & Mediterranean', 'Sample account for testing favourites and ratings.', '2026-10-15 10:00:00'),
+(2, 'Demo User 2', 'demo2@example.test', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Vegetarian', 'Intermediate', 'Peanuts', 'French Patisserie & Salads', 'Sample account for testing favourites and ratings.', '2026-10-16 11:30:00'),
+(3, 'Demo User 3', 'demo3@example.test', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'Vegan', 'Advanced', 'Dairy, Eggs', 'Plant-Based Street Food', 'Sample account for testing favourites and ratings.', '2026-10-17 14:15:00'),
+(4, 'Demo User 4', 'demo4@example.test', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'No Restriction', 'Intermediate', 'Shellfish', 'Italian & British Classics', 'Sample account for testing favourites and ratings.', '2026-10-18 09:45:00'),
+(5, 'Demo Chef', 'chef@example.test', '$2y$10$Ih4FvvupWK2wtZjZ2ol2SuA3CB3t/tOW5fWihIO1RNDM2W1oshvkC', 'No Restriction', 'Professional', 'None', 'Modern British & Global Fusion', 'Sample account for testing recipe ratings and reviews.', '2026-10-10 08:00:00');
 
 -- 2. Seed Categories (12 Categories across Course, Dietary, and Style)
 INSERT INTO `categories` (`category_id`, `name`, `slug`, `category_group`, `icon_symbol`, `description`) VALUES
@@ -200,7 +200,7 @@ INSERT INTO `categories` (`category_id`, `name`, `slug`, `category_group`, `icon
 (11, 'Quick & Easy', 'quick', 'Style', '⚡', 'Approachable recipes ready in 35 minutes or under.'),
 (12, 'Seafood & Fish', 'seafood', 'Dietary', '🐟', 'Omega-rich salmon and coastal seafood dishes.');
 
--- 3. Seed 12 Authentic BBC Food Recipes with Official BBC Food Photography (.jpg)
+-- 3. Seed 12 example recipes with local image files and BBC Food source links.
 INSERT INTO `recipes` (
   `recipe_id`, `title`, `slug`, `subtitle`, `description`, `chef_notes`, `bbc_url`, `image_path`,
   `prep_time_mins`, `cook_time_mins`, `total_time_mins`, `servings`, `difficulty`, `cost_tier`,
@@ -213,7 +213,7 @@ INSERT INTO `recipes` (
   'spaghetti-bolognese',
   'Rich, slow-simmered beef ragù with sun-dried tomatoes, red wine, and fresh basil',
   'Everyone needs a great Spaghetti Bolognese recipe, and this classic BBC Food crowd-pleaser delivers deep, comforting Italian flavour. Finely diced onions, carrots, celery, and pancetta form a traditional soffritto base before lean minced beef is browned and simmered slowly with tomatoes, herbs, and sun-dried tomato paste.',
-  'Chef Marco Tip: Take your time browning the beef in batches so it caramelises rather than steams, and splash in a little starchy pasta cooking water right before tossing.',
+  'Tip: Brown the beef in batches so it caramelises instead of steaming. Add a little pasta cooking water before tossing.',
   'https://www.bbc.co.uk/food/recipes/spaghettibolognese_67868',
   'assets/images/spaghetti_bolognese.jpg',
   25, 90, 115, 6, 'Easy', 'Budget',
@@ -226,7 +226,7 @@ INSERT INTO `recipes` (
   'vegan-pancakes',
   'Fluffy American-style plant-based pancakes with maple syrup and fresh berries',
   'Try this easy vegan American pancake recipe for a decadent plant-based breakfast or brunch. Using self-raising flour, baking powder, and creamy plant milk whisked into a smooth batter, these golden stacks cook to airy perfection in minutes without eggs or dairy.',
-  'Chef Marco Tip: Let the batter rest for 5 minutes before ladling into the pan so the raising agents activate for maximum fluffiness.',
+  'Tip: Rest the batter for 5 minutes before cooking.',
   'https://www.bbc.co.uk/food/recipes/vegan_american_pancakes_76094',
   'assets/images/vegan_pancakes.jpg',
   10, 15, 25, 4, 'Easy', 'Budget',
@@ -239,7 +239,7 @@ INSERT INTO `recipes` (
   'healthy-pizza',
   'Crispy seeded wholemeal flatbread pizza with courgette ribbons, mozzarella, and rocket',
   'A lighter, nutrient-packed homemade pizza that needs no yeast proofing time. Made with wholemeal self-raising dough and topped with a vibrant passata sauce, ribbons of fresh courgette, sweet red pepper, reduced-fat mozzarella, and peppery fresh rocket leaves.',
-  'Chef Marco Tip: Pre-heat your baking tray in the oven for 10 minutes before sliding the pizza onto it—this guarantees a crisp, pizzeria-style base.',
+  'Tip: Heat the baking tray in the oven before adding the pizza to help crisp the base.',
   'https://www.bbc.co.uk/food/recipes/healthy_pizza_55143',
   'assets/images/healthy_pizza.jpg',
   15, 20, 35, 2, 'Easy', 'Budget',
@@ -252,7 +252,7 @@ INSERT INTO `recipes` (
   'easy-lamb-biryani',
   'Fragrant one-pot spiced lamb and basmati rice layered with caramelised onions and mint',
   'This streamlined Easy Lamb Biryani captures all the aromatic warmth of traditional Indian celebratory rice dishes without hours of complex prep. Tender cubed lamb shoulder is marinated with ginger, garlic, garam masala, and cumin, then steamed under fluffy saffron-tinted basmati rice.',
-  'Chef Marco Tip: Wrap a clean tea towel around the pot lid during the final 10-minute resting steam (dum) to trap every bit of fragrant steam.',
+  'Tip: Leave the covered pot to rest for 10 minutes after cooking.',
   'https://www.bbc.co.uk/food/recipes/easy_lamb_biryani_46729',
   'assets/images/easy_lamb_biryani.jpg',
   20, 55, 75, 4, 'Medium', 'Moderate',
@@ -265,7 +265,7 @@ INSERT INTO `recipes` (
   'couscous-salad',
   'Jewelled Moroccan-style couscous with dried apricots, roasted nuts, herbs, and citrus dressing',
   'Inspired by BBC Food''s dried fruits and nuts couscous salad, this vibrant dish pairs fluffy vegetable-stock-infused couscous with sweet chopped dried apricots, cranberries, toasted almonds, pistachio nuts, spring onions, and a zesty lemon-coriander olive oil dressing.',
-  'Chef Marco Tip: Fluff the steamed couscous with a fork rather than a spoon while still warm, drizzling olive oil first so every grain stays separate and light.',
+  'Tip: Fluff the warm couscous with a fork and a little olive oil.',
   'https://www.bbc.co.uk/food/recipes/dried_fruits_and_nuts_18053',
   'assets/images/couscous_salad.jpg',
   15, 10, 25, 4, 'Easy', 'Budget',
@@ -278,7 +278,7 @@ INSERT INTO `recipes` (
   'plum-clafoutis',
   'Classic French baked custard dessert studded with ruby-red roasted plums and vanilla',
   'Originating from the Limousin region of France, this Plum Clafoutis bakes halved ripe plums in a silky vanilla-scented pancake-like batter enriched with eggs, milk, and double cream until golden and puffed, dusted generously with icing sugar.',
-  'Chef Marco Tip: Serve lukewarm straight from the baking dish—about 15 minutes out of the oven is when the custard texture is at its silkier peak.',
+  'Tip: Let the clafoutis cool for about 15 minutes before serving.',
   'https://www.bbc.co.uk/food/recipes/plumclafoutis_11536',
   'assets/images/plum_clafoutis.jpg',
   15, 40, 55, 6, 'Medium', 'Moderate',
@@ -291,7 +291,7 @@ INSERT INTO `recipes` (
   'mango-pie',
   'Buttery spiced shortcrust pie filled with fragrant Alfonso mango, lime zest, and cardamom',
   'A tropical twist on the classic fruit pie from BBC Food. Sweet, ripe mango slices are tossed with aromatic green cardamom, lime juice, and golden caster sugar, then baked inside a crisp, buttery pastry lattice crust until bubbling and golden brown.',
-  'Chef Marco Tip: Brush the pastry lattice with a little milk and sprinkle demerara sugar right before baking for a sparkling, bakery-worthy crunch.',
+  'Tip: Brush the pastry with milk and sprinkle with demerara sugar before baking.',
   'https://www.bbc.co.uk/food/recipes/mango_pie_18053',
   'assets/images/mango_pie.jpg',
   30, 45, 75, 6, 'Medium', 'Moderate',
@@ -304,7 +304,7 @@ INSERT INTO `recipes` (
   'mushroom-doner',
   'Charred shawarma-spiced oyster & portobello mushroom flatbread wrap with garlic tahini slaw',
   'All the smoky, savoury satisfaction of a late-night doner kebab reimagined as a nutritious plant-based showstopper. Thinly shaved portobello and oyster mushrooms are marinated in smoked paprika, cumin, coriander, and oregano, roasted until crispy-edged, and piled into warm flatbreads with pickled red cabbage and cooling garlic sauce.',
-  'Chef Marco Tip: Spread the marinated mushrooms in a single layer across two large baking trays so the edges crisp up like authentic rotisserie shavings.',
+  'Tip: Spread the mushrooms in a single layer so the edges can crisp.',
   'https://www.bbc.co.uk/food/recipes/mushroom_doner_22676',
   'assets/images/mushroom_doner.jpg',
   15, 20, 35, 4, 'Easy', 'Budget',
@@ -317,7 +317,7 @@ INSERT INTO `recipes` (
   'chicken-tikka-masala',
   'Chargrilled yogurt-marinated chicken breast simmered in a velvety spiced tomato and cream sauce',
   'One of Britain and India''s most beloved restaurant classics from BBC Food. Pieces of chicken breast are marinated in spiced yogurt, seared until lightly charred, and folded into a rich, aromatic masala gravy infused with ginger, garlic, garam masala, paprika, and single cream.',
-  'Chef Marco Tip: Toast your whole spices for 45 seconds in a dry pan before grinding—it doubles the warmth and fragrance of the masala sauce.',
+  'Tip: Toast the whole spices in a dry pan before grinding them.',
   'https://www.bbc.co.uk/food/recipes/chickentikkamasala_67780',
   'assets/images/chicken_tikka_masala.jpg',
   20, 30, 50, 4, 'Medium', 'Moderate',
@@ -330,7 +330,7 @@ INSERT INTO `recipes` (
   'salmon-en-croute',
   'Succulent Scottish salmon fillet baked in golden puff pastry with creamy spinach and watercress',
   'An effortless dinner-party centrepiece from BBC Food. Prime skinless salmon fillets are layered with a vibrant cream cheese, spinach, lemon zest, and fresh dill filling, wrapped in crisp puff pastry, and baked until golden brown.',
-  'Chef Marco Tip: Chill the assembled pastry parcel for 15 minutes before baking so the puff pastry rises evenly with sharp, flaky layers.',
+  'Tip: Chill the assembled pastry for 15 minutes before baking.',
   'https://www.bbc.co.uk/food/recipes/salmon_in_pastry_84486',
   'assets/images/salmon_en_croute.jpg',
   20, 25, 45, 4, 'Medium', 'Gourmet',
@@ -343,7 +343,7 @@ INSERT INTO `recipes` (
   'roasted-butternut-squash-risotto',
   'Creamy Italian Arborio rice slowly cooked with sweet caramelised squash, sage, and Parmesan',
   'Sweet cubes of oven-roasted butternut squash and crispy fried sage leaves elevate this velvety vegetarian risotto from BBC Food. Slowly ladling hot vegetable stock into toasted Arborio rice releases natural starches for a luxurious texture.',
-  'Chef Marco Tip: Rest the risotto with the lid on for 2 minutes off the heat after stirring in the cold butter and Parmesan (mantecatura) for silkiness.',
+  'Tip: Rest the risotto for 2 minutes after stirring in the butter and Parmesan.',
   'https://www.bbc.co.uk/food/recipes/tom_kerridges_butternut_56661',
   'assets/images/butternut_risotto.jpg',
   15, 35, 50, 4, 'Medium', 'Budget',
@@ -356,7 +356,7 @@ INSERT INTO `recipes` (
   'sticky-toffee-pudding',
   'Warm date-studded sponge pudding drenched in glossy dark muscovado butterscotch sauce',
   'The ultimate British comfort pudding from BBC Food. Finely chopped Medjool dates softened in boiling tea create an irresistibly moist sponge cake, baked until springy and served swimming in a rich double cream and dark muscovado toffee sauce.',
-  'Chef Marco Tip: Prick the warm sponge all over with a cocktail stick before pouring over the first half of the hot toffee sauce so it soaks right to the centre.',
+  'Tip: Prick the warm sponge before pouring over the toffee sauce.',
   'https://www.bbc.co.uk/food/recipes/sticky_toffee_pudding_05454',
   'assets/images/sticky_toffee_pudding.jpg',
   20, 35, 55, 6, 'Easy', 'Budget',
@@ -580,7 +580,7 @@ INSERT INTO `recipe_steps` (`recipe_id`, `step_number`, `stage_title`, `instruct
 (12, 3, 'Bake the Date Sponge Pudding', 'Pour into a buttered 20cm square baking tin and bake at 180°C (160°C fan) until risen, springy to the touch, and a skewer comes out clean.', 28, '180°C / 160°C Fan'),
 (12, 4, 'Simmer Glossy Butterscotch Toffee Sauce', 'Melt the remaining butter, dark muscovado sugar, and double cream in a saucepan and bubble for 5 minutes until glossy, then pour warm over the pricked sponge.', 7, 'Serve warm with vanilla custard or ice cream');
 
--- 7. Seed Multi-Dimensional Recipe Ratings & Reviews (24 Reviews across all 12 recipes)
+-- 7. Seed example ratings and reviews for local testing.
 INSERT INTO `recipe_ratings` (`recipe_id`, `user_id`, `taste_rating`, `aesthetics_rating`, `difficulty_rating`, `overall_rating`, `review_title`, `review_comment`, `created_at`) VALUES
 (1, 4, 5, 5, 5, 5.00, 'Authentic Italian comfort food!', 'Followed the step timers for browning the beef and simmering for 55 minutes—the sun-dried tomato paste makes the ragù unbelievably rich.', '2026-10-20 18:30:00'),
 (1, 1, 5, 4, 5, 4.67, 'Family favourite every week', 'Used halal lean beef mince and scaled the servings to 8 using the portion calculator. Every step was super clear.', '2026-10-22 19:15:00'),

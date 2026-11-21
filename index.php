@@ -6,7 +6,10 @@ require_once __DIR__ . '/includes/functions.php';
 
 $pdo = getDbConnection();
 $recipes = $pdo->query(
-    'SELECT recipe_id, title, image_path, total_time_mins FROM recipes ORDER BY title'
+    'SELECT r.recipe_id, r.title, r.image_path, r.total_time_mins,
+            (SELECT AVG(overall_rating) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS avg_rating,
+            (SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS rating_count
+     FROM recipes r ORDER BY r.title'
 )->fetchAll();
 
 $user_id = current_user_id();
