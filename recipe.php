@@ -68,10 +68,10 @@ if ($id !== false) {
                     $form_error = 'This form could not be verified. Reload the page and try again.';
                 } else {
                     $rating_fields = [
-                        'overall_rating' => 'overall rating',
-                        'taste_rating' => 'taste rating',
-                        'aesthetics_rating' => 'appearance rating',
-                        'difficulty_rating' => 'difficulty rating',
+                        'overall_rating' => 'an overall rating',
+                        'taste_rating' => 'a taste rating',
+                        'aesthetics_rating' => 'an appearance rating',
+                        'difficulty_rating' => 'a difficulty rating',
                     ];
 
                     foreach ($rating_fields as $field => $label) {
@@ -80,7 +80,7 @@ if ($id !== false) {
                             'options' => ['min_range' => 1, 'max_range' => 5],
                         ]);
                         if ($score === false) {
-                            $rating_errors[$field] = 'Choose an ' . $label . ' from 1 to 5.';
+                            $rating_errors[$field] = 'Choose ' . $label . ' from 1 to 5.';
                         }
                     }
 
