@@ -44,7 +44,14 @@ if ($is_logged_in) {
                 <ul>
                     <?php foreach ($nav_links as $url => $label): ?>
                         <li>
-                            <a href="<?= e($url) ?>"<?= $url === $current_page ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
+                            <?php if ($url === 'logout.php'): ?>
+                                <form class="nav-logout-form" method="post" action="logout.php">
+                                    <?php csrf_field(); ?>
+                                    <button class="nav-logout" type="submit">Log out</button>
+                                </form>
+                            <?php else: ?>
+                                <a href="<?= e($url) ?>"<?= $url === $current_page ? ' aria-current="page"' : '' ?>><?= e($label) ?></a>
+                            <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>

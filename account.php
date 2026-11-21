@@ -21,7 +21,9 @@ try {
 
     if ($user) {
         $stmt = $pdo->prepare(
-            'SELECT r.recipe_id, r.title, r.image_path, r.total_time_mins
+            'SELECT r.recipe_id, r.title, r.image_path, r.total_time_mins,
+                    (SELECT AVG(overall_rating) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS avg_rating,
+                    (SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS rating_count
              FROM recipes r JOIN user_favourites uf ON uf.recipe_id = r.recipe_id
              WHERE uf.user_id = :user_id ORDER BY r.title'
         );

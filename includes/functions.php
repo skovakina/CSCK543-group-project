@@ -29,8 +29,55 @@ function normalize_email($email)
 function ensure_session_started()
 {
     if (session_status() === PHP_SESSION_NONE) {
+        $is_https = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== '' && $_SERVER['HTTPS'] !== 'off';
+
+        // Keep session IDs in cookies and mark the cookie as private to this site.
+        ini_set('session.use_strict_mode', '1');
+        ini_set('session.use_only_cookies', '1');
+        ini_set('session.use_trans_sid', '0');
+
+        if (PHP_VERSION_ID >= 70300) {
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path' => '/',
+                'secure' => $is_https,
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
+        } else {
+            // PHP 7.0–7.2 do not accept the options array.
+            session_set_cookie_params(0, '/; samesite=Lax', '', $is_https, true);
+        }
+
         session_start();
     }
+}
+
+// Returns a session-scoped token used to reject forged form submissions.
+function csrf_token()
+{
+    ensure_session_started();
+    if (!isset($_SESSION['csrf_token']) || !is_string($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+// Prints the hidden CSRF field shared by state-changing forms.
+function csrf_field()
+{
+    echo '<input type="hidden" name="csrf_token" value="' . e(csrf_token()) . '">';
+}
+
+// Uses a constant-time comparison so invalid tokens cannot be guessed by timing.
+function has_valid_csrf_token()
+{
+    ensure_session_started();
+    $submitted = post_value('csrf_token');
+    return isset($_SESSION['csrf_token'])
+        && is_string($_SESSION['csrf_token'])
+        && $submitted !== ''
+        && hash_equals($_SESSION['csrf_token'], $submitted);
 }
 
 // Returns the signed-in user's ID, or null if not logged in.
@@ -71,6 +118,7 @@ function login_user_session(array $user)
 {
     ensure_session_started();
     session_regenerate_id(true);
+    unset($_SESSION['csrf_token'], $_SESSION['favourite_token']);
     $_SESSION['user_id'] = (int)$user['user_id'];
     $_SESSION['user_name'] = (string)$user['full_name'];
     $_SESSION['user_email'] = (string)$user['email'];

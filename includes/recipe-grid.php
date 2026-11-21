@@ -8,7 +8,7 @@ if (!isset($_SESSION['favourite_token'])) {
     <?php foreach ($recipes as $recipe): ?>
         <?php $is_saved = isset($saved_recipes[$recipe['recipe_id']]); ?>
         <article class="recipe-card">
-            <img src="<?= e($recipe['image_path']) ?>" alt="" loading="lazy">
+            <img src="<?= e($recipe['image_path']) ?>" alt="Finished <?= e($recipe['title']) ?>" loading="lazy">
             <form method="post" action="favourite.php">
                 <input type="hidden" name="recipe_id" value="<?= (int)$recipe['recipe_id'] ?>">
                 <input type="hidden" name="token" value="<?= e($_SESSION['favourite_token']) ?>">
@@ -29,8 +29,11 @@ if (!isset($_SESSION['favourite_token'])) {
                     &middot; <?= e($recipe['difficulty']) ?> &middot; <?= (int)$recipe['calories_per_serving'] ?> kcal
                 <?php endif; ?>
             </p>
-            <?php if (!empty($recipe['avg_rating'])): ?>
-                <p>Rated <?= number_format((float)$recipe['avg_rating'], 1) ?> out of 5</p>
+            <?php if ((int)$recipe['rating_count'] > 0): ?>
+                <p>Rated <?= number_format((float)$recipe['avg_rating'], 1) ?> out of 5
+                    from <?= (int)$recipe['rating_count'] ?> <?= (int)$recipe['rating_count'] === 1 ? 'rating' : 'ratings' ?></p>
+            <?php else: ?>
+                <p>Not yet rated</p>
             <?php endif; ?>
         </article>
     <?php endforeach; ?>

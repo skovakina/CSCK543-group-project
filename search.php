@@ -131,6 +131,7 @@ try {
 
         $sql = 'SELECT r.recipe_id, r.title, r.image_path, r.total_time_mins, r.difficulty, r.calories_per_serving,
                 (SELECT AVG(overall_rating) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS avg_rating,
+                (SELECT COUNT(*) FROM recipe_ratings WHERE recipe_id = r.recipe_id) AS rating_count,
                 (SELECT COUNT(*) FROM user_favourites WHERE recipe_id = r.recipe_id) AS save_count
                 FROM recipes r';
         if (!empty($where)) {
