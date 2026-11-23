@@ -1,4 +1,4 @@
-# CSCK543 Group Project — Recipe Web Application
+# CSCK543 Group Project - Recipe Web Application
 
 ## Application Foundation
 
@@ -30,7 +30,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      6. [Plum Clafoutis](https://www.bbc.co.uk/food/recipes/plumclafoutis_11536)
      7. [Mango Pie](https://www.bbc.co.uk/food/recipes/mango_pie_18053)
      8. [Mushroom Doner](https://www.bbc.co.uk/food/recipes/mushroom_doner_22676)
-   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings.
+   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: chef@example.test and demo1@example.test to demo4@example.test.
 
 ---
 
@@ -64,7 +64,7 @@ php -S localhost:8000
    - **Warning:** this script drops and recreates application tables. Do not re-import it into an existing database unless you intend to reset its data and have a backup.
    - If the database is already set up, skip the import. Connection or schema errors must be investigated, not fixed by re-importing the seed script.
 4. **Open in Google Chrome:**
-   - Visit `http://localhost/CSCK543-group-project/`
+   - Visit `http://localhost/CSCK543-group-project/` (use your folder name if it is different)
 
 ---
 
