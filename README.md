@@ -19,7 +19,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      - `recipe_steps`: Stores ordered cooking steps (`step_number`), stage title, instructions, and explicit duration per step (`duration_minutes`).
      - `user_favourites`: Stores users' saved favourite recipes and personal notes.
      - `recipe_ratings`: Stores each user's rating of a recipe (taste, aesthetics, difficulty and overall), with an optional review title and comment. One rating per user per recipe.
-       
+
 3. **Sample Recipes**
    - `sql/chef_recipes_db.sql` seeds all **8 specified BBC Food recipes** from the assignment brief (plus 4 additional BBC Food recipes = 12 total):
      1. [Spaghetti Bolognese](https://www.bbc.co.uk/food/recipes/spaghettibolognese_67868)
@@ -30,7 +30,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      6. [Plum Clafoutis](https://www.bbc.co.uk/food/recipes/plumclafoutis_11536)
      7. [Mango Pie](https://www.bbc.co.uk/food/recipes/mango_pie_18053)
      8. [Mushroom Doner](https://www.bbc.co.uk/food/recipes/mushroom_doner_22676)
-   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: chef@example.test and demo1@example.test to demo4@example.test.
+   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: `chef@example.test` and `demo1@example.test` to `demo4@example.test.`
 
 ---
 
