@@ -1,4 +1,4 @@
-# CSCK543 Group Project — Recipe Web Application
+# CSCK543 Group Project - Recipe Web Application
 
 ## Application Foundation
 
@@ -18,8 +18,8 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      - `recipe_ingredients`: Stores ordered ingredient lists, numeric & formatted quantities, measurement units, preparation notes, and allergen flags.
      - `recipe_steps`: Stores ordered cooking steps (`step_number`), stage title, instructions, and explicit duration per step (`duration_minutes`).
      - `user_favourites`: Stores users' saved favourite recipes and personal notes.
-     - `recipe_ratings`: Stores user ratings broken down into taste, aesthetics, difficulty, and overall rating.
-
+     - `recipe_ratings`: Stores each user's rating of a recipe (taste, aesthetics, difficulty and overall), with an optional review title and comment. One rating per user per recipe.
+       
 3. **Sample Recipes**
    - `sql/chef_recipes_db.sql` seeds all **8 specified BBC Food recipes** from the assignment brief (plus 4 additional BBC Food recipes = 12 total):
      1. [Spaghetti Bolognese](https://www.bbc.co.uk/food/recipes/spaghettibolognese_67868)
@@ -30,7 +30,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      6. [Plum Clafoutis](https://www.bbc.co.uk/food/recipes/plumclafoutis_11536)
      7. [Mango Pie](https://www.bbc.co.uk/food/recipes/mango_pie_18053)
      8. [Mushroom Doner](https://www.bbc.co.uk/food/recipes/mushroom_doner_22676)
-   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings.
+   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: chef@example.test and demo1@example.test to demo4@example.test.
 
 ---
 
@@ -64,7 +64,7 @@ php -S localhost:8000
    - **Warning:** this script drops and recreates application tables. Do not re-import it into an existing database unless you intend to reset its data and have a backup.
    - If the database is already set up, skip the import. Connection or schema errors must be investigated, not fixed by re-importing the seed script.
 4. **Open in Google Chrome:**
-   - Visit `http://localhost/CSCK543-group-project/`
+   - Visit `http://localhost/CSCK543-group-project/` (use your folder name if it is different)
 
 ---
 
@@ -97,6 +97,6 @@ $pdo = getDbConnection();
 
 ## Screenshots and Local Testing
 
-- The `screenshots/` folder contains 10 screenshots of the main views, including two mobile screenshots.
+- The `screenshots/` folder contains 10 screenshots of the main views, including three mobile screenshots.
 - After setup, try searching and sorting recipes, registering and logging in, saving a favourite, and submitting or updating a rating and review.
 - Check the site at desktop and mobile widths. Use the keyboard to move through the navigation and forms and confirm the focus indicator is visible.
