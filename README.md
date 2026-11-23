@@ -30,7 +30,7 @@ This setup provides the PHP 7/8 + MySQL foundation for the Recipe Web Applicatio
      6. [Plum Clafoutis](https://www.bbc.co.uk/food/recipes/plumclafoutis_11536)
      7. [Mango Pie](https://www.bbc.co.uk/food/recipes/mango_pie_18053)
      8. [Mushroom Doner](https://www.bbc.co.uk/food/recipes/mushroom_doner_22676)
-   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: `chef@example.test` and `demo1@example.test` to `demo4@example.test.`
+   - Also includes 5 demo user accounts (password for all demo accounts: `Password123!`), sample saved favourites, and sample ratings. Demo logins: `chef@example.test` and `demo1@example.test` to `demo4@example.test`.
 
 ---
 
